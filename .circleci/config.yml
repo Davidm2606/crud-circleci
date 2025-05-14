@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.12.5
+
 jobs:
   install:
     docker:
@@ -24,6 +27,12 @@ jobs:
       - attach_workspace:
           at: .
       - run: . venv/bin/activate && pytest tests/
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1
 
   deploy:
     docker:
@@ -32,6 +41,9 @@ jobs:
       - attach_workspace:
           at: .
       - run: echo "Despliegue exitoso (simulado)"
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
 
 workflows:
   version: 2
