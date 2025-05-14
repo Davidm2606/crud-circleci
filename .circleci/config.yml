@@ -56,7 +56,3 @@ workflows:
       - deploy:
           requires:
             - test
-
-    # Configuración del canal de Slack
-    slack/notify:
-      channel: "#general"
